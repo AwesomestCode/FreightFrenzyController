@@ -75,9 +75,9 @@ public class HardwareRobot {
         rawRearRight += vector.z;
 
         frontLeft.setPower(rawFrontLeft);
-        frontRight.setPower(rawFrontRight);
+        frontRight.setPower(-rawFrontRight);
         rearLeft.setPower(rawRearLeft);
-        rearRight.setPower(rawRearRight);
+        rearRight.setPower(-rawRearRight);
     }
 
     public static class DistanceVector {

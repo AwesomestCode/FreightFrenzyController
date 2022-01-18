@@ -10,7 +10,7 @@ public class TestMecanum extends LinearOpMode {
         HardwareRobot robot = new HardwareRobot(hardwareMap, HardwareRobot.Mode.TELEOP);
         waitForStart();
         while (opModeIsActive()) {
-            robot.movePower(new HardwareRobot.PowerVector(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x));
+            robot.movePower(new HardwareRobot.PowerVector(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x));
         }
     }
 }
