@@ -5,9 +5,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class HardwareRobot {
 
-    final static double MULTIPLIER = 1440;
+    private final static double MULTIPLIER = 1440;
 
     private final HardwareMap hardwareMap;
+    private final Mode mode;
 
     DcMotor armMotor;
     DcMotor frontLeft;
@@ -23,8 +24,15 @@ public class HardwareRobot {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         rearLeft = hardwareMap.get(DcMotor.class, "rearLeft");
         rearRight = hardwareMap.get(DcMotor.class, "rearRight");
+        this.mode = mode;
 
         if (mode == Mode.AUTONOMOUS) {
+            armMotor.setTargetPosition(0);
+            frontLeft.setTargetPosition(0);
+            frontRight.setTargetPosition(0);
+            rearLeft.setTargetPosition(0);
+            rearRight.setTargetPosition(0);
+
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -53,14 +61,14 @@ public class HardwareRobot {
         rawRearRight += vector.z;
 
         frontLeft.setTargetPosition((int) (rawFrontLeft * MULTIPLIER) + frontLeft.getCurrentPosition());
-        frontRight.setTargetPosition((int) (rawFrontRight * MULTIPLIER) + frontRight.getCurrentPosition());
+        frontRight.setTargetPosition((int) (rawFrontRight * -MULTIPLIER) + frontRight.getCurrentPosition());
         rearLeft.setTargetPosition((int) (rawRearLeft * MULTIPLIER) + rearLeft.getCurrentPosition());
-        rearRight.setTargetPosition((int) (rawRearRight * MULTIPLIER) + rearRight.getCurrentPosition());
+        rearRight.setTargetPosition((int) (rawRearRight * -MULTIPLIER) + rearRight.getCurrentPosition());
 
         frontLeft.setPower(vector.speed);
-        frontRight.setPower(-vector.speed);
+        frontRight.setPower(vector.speed);
         rearLeft.setPower(vector.speed);
-        rearRight.setPower(-vector.speed);
+        rearRight.setPower(vector.speed);
     }
 
     public void movePower(PowerVector vector) {
