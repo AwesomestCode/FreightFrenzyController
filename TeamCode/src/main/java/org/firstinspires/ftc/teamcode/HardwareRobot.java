@@ -77,10 +77,15 @@ public class HardwareRobot {
         double rawRearLeft = vector.x;
         double rawRearRight = vector.x;
 
-        rawFrontRight -= vector.z;
-        rawRearLeft -= vector.z;
-        rawFrontLeft += vector.z;
-        rawRearRight += vector.z;
+        rawFrontRight += vector.z;
+        rawRearLeft += vector.z;
+        rawFrontLeft -= vector.z;
+        rawRearRight -= vector.z;
+
+        rawFrontRight += vector.rotation;
+        rawRearRight += vector.rotation;
+        rawFrontLeft -= vector.rotation;
+        rawRearLeft -= vector.rotation;
 
         frontLeft.setPower(rawFrontLeft);
         frontRight.setPower(-rawFrontRight);
