@@ -60,10 +60,10 @@ public class HardwareRobot {
         rawFrontLeft += vector.z;
         rawRearRight += vector.z;
 
-        frontLeft.setTargetPosition((int) (rawFrontLeft * MULTIPLIER) + frontLeft.getCurrentPosition());
-        frontRight.setTargetPosition((int) (rawFrontRight * -MULTIPLIER) + frontRight.getCurrentPosition());
-        rearLeft.setTargetPosition((int) (rawRearLeft * MULTIPLIER) + rearLeft.getCurrentPosition());
-        rearRight.setTargetPosition((int) (rawRearRight * -MULTIPLIER) + rearRight.getCurrentPosition());
+        frontLeft.setTargetPosition((int) (rawFrontLeft * -MULTIPLIER) + frontLeft.getCurrentPosition());
+        frontRight.setTargetPosition((int) (rawFrontRight * MULTIPLIER) + frontRight.getCurrentPosition());
+        rearLeft.setTargetPosition((int) (rawRearLeft * -MULTIPLIER) + rearLeft.getCurrentPosition());
+        rearRight.setTargetPosition((int) (rawRearRight * MULTIPLIER) + rearRight.getCurrentPosition());
 
         frontLeft.setPower(vector.speed);
         frontRight.setPower(vector.speed);

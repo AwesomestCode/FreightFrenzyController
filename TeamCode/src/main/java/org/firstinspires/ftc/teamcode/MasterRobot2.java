@@ -40,6 +40,8 @@ public class MasterRobot2 extends LinearOpMode {
 
         waitForStart();
 
+        int adjustment;
+        int targetPosition = 0;
 
         while(opModeIsActive()) {
             // ARM LOGIC
@@ -49,15 +51,20 @@ public class MasterRobot2 extends LinearOpMode {
             telemetry.update();
             //Thread.sleep(100);
 
+            adjustment = (int) ((gamepad2.left_trigger) * 120);
+
             if(gamepad2.x) {
-                armMotor.setTargetPosition(720);
+                targetPosition = 720;
             } else if(gamepad2.y) {
-                armMotor.setTargetPosition(990);
+                targetPosition = 990;
             } else if(gamepad2.b) {
-                armMotor.setTargetPosition(1260);
+                targetPosition = 1260;
             } else if (gamepad2.a){
-                armMotor.setTargetPosition(0);
+                targetPosition = 0;
             }
+
+            armMotor.setTargetPosition(targetPosition + adjustment);
+
             armMotor.setPower(gamepad2.right_bumper ? 0.25 : 0.05);
 
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

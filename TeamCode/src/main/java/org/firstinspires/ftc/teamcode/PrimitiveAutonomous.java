@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import java.util.concurrent.TimeUnit;
 
-@TeleOp(name = "Primitive Autonomous", group = "Concept")
+@Autonomous(name = "Primitive Autonomous", group = "Concept")
 // @Disabled
 public class PrimitiveAutonomous extends LinearOpMode {
 
