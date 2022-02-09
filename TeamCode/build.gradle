@@ -15,7 +15,12 @@
 apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     implementation project(':FtcRobotController')
+    // implementation 'org.java-websocket:Java-WebSocket:1.5.2'
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
 }

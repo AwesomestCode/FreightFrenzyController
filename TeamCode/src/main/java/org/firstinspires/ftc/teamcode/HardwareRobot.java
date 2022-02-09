@@ -38,7 +38,13 @@ public class HardwareRobot {
             frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rearLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rearRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else if (mode == Mode.TELEOP){
+        } else if (mode == Mode.TELEOP) {
+            armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rearLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rearRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        } else if(mode == Mode.DYNAMIC) {
             armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -121,6 +127,6 @@ public class HardwareRobot {
 
     enum Mode {
         AUTONOMOUS,
-        TELEOP
+        DYNAMIC, TELEOP
     }
 }
