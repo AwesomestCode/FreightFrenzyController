@@ -66,6 +66,11 @@ public class HardwareRobot {
         rawFrontLeft += vector.z;
         rawRearRight += vector.z;
 
+        rawFrontRight += vector.rotation;
+        rawRearRight += vector.rotation;
+        rawFrontLeft -= vector.rotation;
+        rawRearLeft -= vector.rotation;
+
         frontLeft.setTargetPosition((int) (rawFrontLeft * -MULTIPLIER) + frontLeft.getCurrentPosition());
         frontRight.setTargetPosition((int) (rawFrontRight * MULTIPLIER) + frontRight.getCurrentPosition());
         rearLeft.setTargetPosition((int) (rawRearLeft * -MULTIPLIER) + rearLeft.getCurrentPosition());
