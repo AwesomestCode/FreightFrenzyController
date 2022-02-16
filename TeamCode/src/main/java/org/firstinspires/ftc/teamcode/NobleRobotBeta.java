@@ -28,43 +28,55 @@ public class NobleRobotBeta extends LinearOpMode {
 
         final int[][] motorPositions = {
                 {0, 0}, // Ground Level
-                {2000, 0}, // Front Side, Top level
-                {2500, 0}, // Back Side, Top level
-                {3000, 0} // Back Side, Bottom level
+                {960, 90}, // Front Side, Top level
+                {2120, -40}, // Back Side, Top level
+                {2840, -15}, // Back Side, Bottom level
+                {208, 36} // Front Side, intake
         };
 
+        int adjustment = 0;
+        int targetPosition = 0;
+
         while(opModeIsActive()) {
-            if(gamepad1.a) {
-                armMotor.setTargetPosition(motorPositions[0][0]); // Ground Level
+            adjustment = (int) ((gamepad2.left_trigger) * 360);
+            if(gamepad2.a && gamepad2.left_bumper) {
+                targetPosition = motorPositions[0][0]; // Ground Level
                 ferrisMotor.setTargetPosition(motorPositions[0][1]);
             }
-            else if(gamepad1.x) {
-                armMotor.setTargetPosition(motorPositions[1][0]); // Front Side, Top level
+            else if(gamepad2.x && gamepad2.left_bumper) {
+                targetPosition = motorPositions[1][0]; // Front Side, Top level
                 ferrisMotor.setTargetPosition(motorPositions[1][1]);
             }
-            else if(gamepad1.y) {
-                armMotor.setTargetPosition(motorPositions[2][0]); // Back Side, Top level
+            else if(gamepad2.y && gamepad2.left_bumper) {
+                targetPosition = motorPositions[2][0] + adjustment; // Back Side, Top level
                 ferrisMotor.setTargetPosition(motorPositions[2][1]);
             }
-            else if(gamepad1.b) {
-                armMotor.setTargetPosition(motorPositions[3][0]); // Back Side, Bottom level
+            else if(gamepad2.b && gamepad2.left_bumper) {
+                targetPosition = motorPositions[3][0]; // Back Side, Bottom level
                 ferrisMotor.setTargetPosition(motorPositions[3][1]);
             }
+            else if(gamepad2.dpad_left) {
+                targetPosition = motorPositions[4][0]; // Front Side, Intake
+                ferrisMotor.setTargetPosition(motorPositions[4][1]);
+            }
             // robot.movePower(new HardwareRobot.PowerVector(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x));
+            armMotor.setTargetPosition(targetPosition + adjustment);
 
-            if(gamepad1.right_bumper) {
-                armMotor.setPower(0.5);
+            if(gamepad2.right_bumper) {
+                armMotor.setPower(0.75);
             } else {
-                armMotor.setPower(0.1);
+                armMotor.setPower(0.2);
             }
 
-            if(gamepad1.dpad_up) {
+            if(gamepad2.dpad_up) {
                 intakeMotor.setPower(1);
-            } else if(gamepad1.dpad_down) {
+            } else if(gamepad2.dpad_down) {
                 intakeMotor.setPower(-1);
-            } else if(gamepad1.dpad_right) {
+            } else if(gamepad2.dpad_right) {
                 intakeMotor.setPower(0);
             }
+
+            robot.movePower(new HardwareRobot.PowerVector(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x));
         }
     }
 }

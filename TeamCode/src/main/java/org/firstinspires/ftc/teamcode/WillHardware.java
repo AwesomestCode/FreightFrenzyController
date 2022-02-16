@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class HardwareRobot {
+public class WillHardware {
 
     private final static double MULTIPLIER = 1440;
 
@@ -16,7 +16,7 @@ public class HardwareRobot {
     DcMotor rearLeft;
     DcMotor rearRight;
 
-    public HardwareRobot(HardwareMap hardwareMap, HardwareRobot.Mode mode) {
+    public WillHardware(HardwareMap hardwareMap, WillHardware.Mode mode) {
         this.hardwareMap = hardwareMap;
 
         armMotor = hardwareMap.get(DcMotor .class, "armMotor");
@@ -38,13 +38,7 @@ public class HardwareRobot {
             frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rearLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rearRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else if (mode == Mode.TELEOP) {
-            armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rearLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rearRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        } else if(mode == Mode.DYNAMIC) {
+        } else if (mode == Mode.TELEOP){
             armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -66,10 +60,10 @@ public class HardwareRobot {
         rawFrontLeft += vector.z;
         rawRearRight += vector.z;
 
-        frontLeft.setTargetPosition((int) (rawFrontLeft * -MULTIPLIER) + frontLeft.getCurrentPosition());
-        frontRight.setTargetPosition((int) (rawFrontRight * MULTIPLIER) + frontRight.getCurrentPosition());
-        rearLeft.setTargetPosition((int) (rawRearLeft * -MULTIPLIER) + rearLeft.getCurrentPosition());
-        rearRight.setTargetPosition((int) (rawRearRight * MULTIPLIER) + rearRight.getCurrentPosition());
+        frontLeft.setTargetPosition((int) (rawFrontLeft * MULTIPLIER) + frontLeft.getCurrentPosition());
+        frontRight.setTargetPosition((int) (rawFrontRight * -MULTIPLIER) + frontRight.getCurrentPosition());
+        rearLeft.setTargetPosition((int) (rawRearLeft * MULTIPLIER) + rearLeft.getCurrentPosition());
+        rearRight.setTargetPosition((int) (rawRearRight * -MULTIPLIER) + rearRight.getCurrentPosition());
 
         frontLeft.setPower(vector.speed);
         frontRight.setPower(vector.speed);
@@ -77,29 +71,54 @@ public class HardwareRobot {
         rearRight.setPower(vector.speed);
     }
 
-    public void movePower(PowerVector vector) {
-        double rawFrontLeft = vector.x;
-        double rawFrontRight = vector.x;
-        double rawRearLeft = vector.x;
-        double rawRearRight = vector.x;
+    public void movePower(controlVector v) {
 
-        rawFrontLeft -= vector.z; rawFrontRight += vector.z;
-        rawRearLeft += vector.z;  rawRearRight -= vector.z;
+        frontLeft.setPower(v.y1);
+        rearLeft.setPower(v.y1);
+        frontRight.setPower(-v.y2);
+        rearRight.setPower(-v.y2);
 
-        rawFrontRight += vector.rotation;
-        rawRearRight += vector.rotation;
-        rawFrontLeft -= vector.rotation;
-        rawRearLeft -= vector.rotation;
+        frontLeft.setPower(-v.x1);
+        rearLeft.setPower(v.x1);
+        frontRight.setPower(v.x2);
+        rearRight.setPower(-v.x2);
+    }
 
-        frontLeft.setPower(rawFrontLeft);
-        frontRight.setPower(-rawFrontRight);
-        rearLeft.setPower(rawRearLeft);
-        rearRight.setPower(-rawRearRight);
+    public void tankMovement(double y1, double y2, double x1, double x2) {
+        final double maxThreshold = 0.5;
+        final double adj = 1.4; //adjust the power so it maxes out
+        final double bound= 0.2;
 
-        System.out.println(rawFrontLeft);
-        System.out.println(rawFrontRight);
-        System.out.println(rawRearLeft);
-        System.out.println(rawRearRight);
+        if ((x1<-bound && y1<-bound)||(x2<-bound && y2<-bound)||(x1>bound && y1>bound)||(x2>bound && y2>bound)){
+            //10:30 & 4:30
+            frontRight.setPower(-y1*adj);
+            rearLeft.setPower(y1*adj);
+            frontLeft.setPower(0);
+            rearRight.setPower(0);
+        }else if ((x1>bound && y1<-bound)||(x2>bound && y2<-bound)||(x1<-bound && y1>bound)||(x2<-bound && y2>bound)){
+            //1:30 & 7:30
+            frontLeft.setPower(y1*adj);
+            rearRight.setPower(-y1*adj);
+            frontRight.setPower(0);
+            rearLeft.setPower(0);
+        }else if (y1>=maxThreshold || y1<=-maxThreshold || y2>=maxThreshold || y2<=-maxThreshold ) {
+            //tank movement
+            frontLeft.setPower(y1);
+            rearLeft.setPower(y1);
+            frontRight.setPower(-y2);
+            rearRight.setPower(-y2);
+        }else if (x1>=maxThreshold || x1<=-maxThreshold || x2>=maxThreshold || x2<=-maxThreshold) {
+            //strafe
+            frontLeft.setPower(-x1);
+            rearLeft.setPower(x1);
+            frontRight.setPower(-x2);
+            rearRight.setPower(x2);
+        }else{
+            frontLeft.setPower(0);
+            rearLeft.setPower(0);
+            frontRight.setPower(0);
+            rearRight.setPower(0);
+        }
     }
 
     public static class DistanceVector {
@@ -113,6 +132,20 @@ public class HardwareRobot {
             this.z = z;
             this.rotation = rotation;
             this.speed = speed;
+        }
+    }
+
+    public static class controlVector {
+        double y1;
+        double y2;
+        double x1;
+        double x2;
+
+        public controlVector(double y1, double y2, double x1, double x2){
+            this.y1 = y1;
+            this.y2 = y2;
+            this.x1 = x1;
+            this.x2 = x2;
         }
     }
 
@@ -130,6 +163,6 @@ public class HardwareRobot {
 
     enum Mode {
         AUTONOMOUS,
-        DYNAMIC, TELEOP
+        TELEOP
     }
 }
