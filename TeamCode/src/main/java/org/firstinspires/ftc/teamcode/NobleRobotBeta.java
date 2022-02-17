@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import java.util.concurrent.TimeUnit;
+
 @TeleOp(name="NobleRobotBeta", group="Noble")
 public class NobleRobotBeta extends LinearOpMode {
     @Override
@@ -15,14 +17,16 @@ public class NobleRobotBeta extends LinearOpMode {
 
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        ferrisMotor.setTargetPosition(0);
         armMotor.setTargetPosition(0);
+        ferrisMotor.setTargetPosition(0);
 
         ferrisMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+
+        // Normal Code
         armMotor.setPower(0.1);
-        ferrisMotor.setPower(0.30);
+        ferrisMotor.setPower(0.50);
 
         waitForStart();
 
@@ -37,24 +41,28 @@ public class NobleRobotBeta extends LinearOpMode {
         int adjustment = 0;
         int targetPosition = 0;
 
+        boolean enabled = false;
+
         while(opModeIsActive()) {
+            if(gamepad2.left_bumper) enabled = true;
             adjustment = (int) ((gamepad2.left_trigger) * 360);
-            if(gamepad2.a && gamepad2.left_bumper) {
+            if(gamepad2.a && enabled) {
                 targetPosition = motorPositions[0][0]; // Ground Level
                 ferrisMotor.setTargetPosition(motorPositions[0][1]);
             }
-            else if(gamepad2.x && gamepad2.left_bumper) {
+            else if(gamepad2.x && enabled) {
                 targetPosition = motorPositions[1][0]; // Front Side, Top level
                 ferrisMotor.setTargetPosition(motorPositions[1][1]);
             }
-            else if(gamepad2.y && gamepad2.left_bumper) {
+            else if(gamepad2.y && enabled) {
                 targetPosition = motorPositions[2][0] + adjustment; // Back Side, Top level
                 ferrisMotor.setTargetPosition(motorPositions[2][1]);
             }
-            else if(gamepad2.b && gamepad2.left_bumper) {
+            /* DISABLED FOR NOW TO PREVENT ARM FROM GOING TOO FAR
+            else if(gamepad2.b && enabled) {
                 targetPosition = motorPositions[3][0]; // Back Side, Bottom level
                 ferrisMotor.setTargetPosition(motorPositions[3][1]);
-            }
+            } */
             else if(gamepad2.dpad_left) {
                 targetPosition = motorPositions[4][0]; // Front Side, Intake
                 ferrisMotor.setTargetPosition(motorPositions[4][1]);
@@ -69,14 +77,14 @@ public class NobleRobotBeta extends LinearOpMode {
             }
 
             if(gamepad2.dpad_up) {
-                intakeMotor.setPower(1);
+                intakeMotor.setPower(0.5);
             } else if(gamepad2.dpad_down) {
                 intakeMotor.setPower(-1);
             } else if(gamepad2.dpad_right) {
                 intakeMotor.setPower(0);
             }
 
-            robot.movePower(new HardwareRobot.PowerVector(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x));
+            robot.movePower(new HardwareRobot.PowerVector(Math.min(gamepad1.left_stick_y, 0.8), Math.min(gamepad1.left_stick_x, 0.8), gamepad1.right_stick_x));
         }
     }
 }
