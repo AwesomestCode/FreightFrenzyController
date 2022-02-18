@@ -89,45 +89,10 @@ public class AutonomousCode extends LinearOpMode {
         }
 
 
-        int position = -1;
+        int position;
         final double findRot = 1.550;
         DcMotor intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
         DcMotor duckMotor = hardwareMap.get(DcMotor.class, "duckMotor");
-        boolean foundDuckPosition = false;
-
-   /*     while (!foundDuckPosition && !isStopRequested( ) && !isStarted( )) {
-            if (tfod != null) {
-                // getUpdatedRecognitions() will return null if no new information is available since
-                // the last time that call was made.
-                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                if (updatedRecognitions != null) {
-                    telemetry.addData("# Object Detected", updatedRecognitions.size());
-                    // step through the list of recognitions and display boundary info.
-                    int i = 0;
-                    for (Recognition recognition : updatedRecognitions) {
-                        telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                        telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                recognition.getLeft(), recognition.getTop());
-                        telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                recognition.getRight(), recognition.getBottom());
-                        i++;
-                        if (recognition.getLeft()>=1 && recognition.getRight()<=3){
-                            position = 0;
-                        }else if (recognition.getLeft()>=3 && recognition.getRight()<=5){
-                            position = 1;
-                        }else if (recognition.getLeft()>=5 && recognition.getRight()<=7){
-                            position = 2;
-                        }
-                    }
-                    if (position !=-1){
-                        foundDuckPosition = true;
-                        telemetry.addData("Which Position", "%.03f , %.03f", position);
-                    }
-                    telemetry.update();
-                }
-            }
-        }
-    */
 
         robot.moveDistance(new HardwareRobot.DistanceVector(0.2, 0, 0, 1));
         TimeUnit.SECONDS.sleep(1);
@@ -156,10 +121,10 @@ public class AutonomousCode extends LinearOpMode {
 
         position = 2;
         // depending on position the arm deposits box in desired level
-        if (position ==0) {
+        if (position == 0) {
             armMotor.setTargetPosition(50);
             ferrisMotor.setTargetPosition(-100);
-        }else if (position==1) {
+        }else if (position == 1) {
             armMotor.setTargetPosition(410);
             ferrisMotor.setTargetPosition(-70);
         }else {
