@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 public class HardwareRobot {
 
-    private final static double MULTIPLIER = 1440;
+    private final static double MULTIPLIER = 875;
 
     private final HardwareMap hardwareMap;
     private final Mode mode;
@@ -17,11 +17,13 @@ public class HardwareRobot {
     DcMotor frontRight;
     DcMotor rearLeft;
     DcMotor rearRight;
+    DcMotor ferrisMotor;
 
     public HardwareRobot(HardwareMap hardwareMap, HardwareRobot.Mode mode) {
         this.hardwareMap = hardwareMap;
 
         armMotor = hardwareMap.get(DcMotor .class, "armMotor");
+        ferrisMotor = hardwareMap.get(DcMotor .class, "intakeFerrisWheel");
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         rearLeft = hardwareMap.get(DcMotor.class, "rearLeft");
@@ -30,12 +32,14 @@ public class HardwareRobot {
 
         if (mode == Mode.AUTONOMOUS) {
             armMotor.setTargetPosition(0);
+            ferrisMotor.setTargetPosition(0);
             frontLeft.setTargetPosition(0);
             frontRight.setTargetPosition(0);
             rearLeft.setTargetPosition(0);
             rearRight.setTargetPosition(0);
 
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            ferrisMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rearLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -68,15 +72,27 @@ public class HardwareRobot {
         rawFrontLeft += vector.z;
         rawRearRight += vector.z;
 
-        frontLeft.setTargetPosition((int) (rawFrontLeft * -MULTIPLIER) + frontLeft.getCurrentPosition());
-        frontRight.setTargetPosition((int) (rawFrontRight * MULTIPLIER) + frontRight.getCurrentPosition());
-        rearLeft.setTargetPosition((int) (rawRearLeft * -MULTIPLIER) + rearLeft.getCurrentPosition());
-        rearRight.setTargetPosition((int) (rawRearRight * MULTIPLIER) + rearRight.getCurrentPosition());
+        rawFrontRight-= vector.rotation;
+        rawRearLeft += vector.rotation;
+        rawFrontLeft += vector.rotation;
+        rawRearRight -= vector.rotation;
 
-        frontLeft.setPower(vector.speed);
-        frontRight.setPower(vector.speed);
-        rearLeft.setPower(vector.speed);
-        rearRight.setPower(vector.speed);
+        frontLeft.setTargetPosition((int) (rawFrontLeft * MULTIPLIER) + frontLeft.getCurrentPosition());
+        frontRight.setTargetPosition((int) (rawFrontRight * -MULTIPLIER) + frontRight.getCurrentPosition());
+        rearLeft.setTargetPosition((int) (rawRearLeft * MULTIPLIER) + rearLeft.getCurrentPosition());
+        rearRight.setTargetPosition((int) (rawRearRight * -MULTIPLIER) + rearRight.getCurrentPosition());
+
+        if (vector.rotation>0){
+            frontLeft.setPower(-vector.speed);
+            frontRight.setPower(vector.speed);
+            rearLeft.setPower(-vector.speed);
+            rearRight.setPower(vector.speed);
+        }else {
+            frontLeft.setPower(vector.speed);
+            frontRight.setPower(vector.speed);
+            rearLeft.setPower(vector.speed);
+            rearRight.setPower(vector.speed);
+        }
     }
 
     public void movePower(PowerVector vector) {
