@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import java.util.concurrent.TimeUnit;
+
 public class HardwareRobot {
 
     private final static double MULTIPLIER = 1440;
@@ -100,6 +102,30 @@ public class HardwareRobot {
         System.out.println(rawFrontRight);
         System.out.println(rawRearLeft);
         System.out.println(rawRearRight);
+    }
+
+    public void initialise() throws InterruptedException {
+        moveDistance(new DistanceVector(-0.5, 0, 0, 1));
+        TimeUnit.SECONDS.sleep(2);
+        DcMotor armMotor = hardwareMap.get(DcMotor.class , "armMotor");
+        armMotor.setTargetPosition(500);
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotor.setPower(0.5);
+        TimeUnit.SECONDS.sleep(3);
+
+
+
+
+
+        DcMotor ferrisWheel = hardwareMap.get(DcMotor.class, "intakeFerrisWheel");
+        ferrisWheel.setTargetPosition(-300);
+        ferrisWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ferrisWheel.setPower(0.5);
+        TimeUnit.SECONDS.sleep(1);
+        armMotor.setPower(0.1);
+        TimeUnit.SECONDS.sleep(1);
+        armMotor.setPower(0);
+        ferrisWheel.setPower(0);
     }
 
     public static class DistanceVector {
