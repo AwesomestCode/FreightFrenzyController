@@ -68,8 +68,6 @@ public class AutonomousCode extends LinearOpMode {
         DcMotor rearLeft = hardwareMap.get(DcMotor.class, "rearLeft");
         DcMotor rearRight = hardwareMap.get(DcMotor.class, "rearRight");
 
-        //armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //ferrisMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rearLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -133,21 +131,16 @@ public class AutonomousCode extends LinearOpMode {
 
         robot.moveDistance(new HardwareRobot.DistanceVector(0.2, 0, 0, 1));
         TimeUnit.SECONDS.sleep(1);
-        //moves right
+
+        // moves right
         robot.moveDistance(new HardwareRobot.DistanceVector(0, -1.5, 0, 1));
         TimeUnit.SECONDS.sleep(2);
 
-
-
-        //spins duck wheel
+        // spins duck wheel
         duckMotor.setPower(-0.3);
         TimeUnit.SECONDS.sleep(3);
 
-
         duckMotor.setPower(0);
-
-
-
 
         // moves to in front of team shipping unit
         robot.moveDistance(new HardwareRobot.DistanceVector(0, 3.6, 0, 1));
@@ -194,24 +187,11 @@ public class AutonomousCode extends LinearOpMode {
 
         TimeUnit.SECONDS.sleep(2);
 
-
         robot.moveDistance(new HardwareRobot.DistanceVector(-5, 0, 0, 1));
 
         TimeUnit.SECONDS.sleep(4);
         armMotor.setPower(0);
         ferrisMotor.setPower(0);
-
-
-
-
-
-        //robot goes into cargo area
-
-
-
-        //     robot.moveDistance(new HardwareRobot.DistanceVector(4, 0, 0, 1));
-        //   TimeUnit.SECONDS.sleep(4);
-
 
     }
 
