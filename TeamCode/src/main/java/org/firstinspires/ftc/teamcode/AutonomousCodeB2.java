@@ -1,19 +1,19 @@
 package org.firstinspires.ftc.teamcode;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-
 
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "Will The Robot Run B1", group = "Concept")
+@Autonomous(name = "Will The Robot Run B2", group = "Concept")
 // @Disabled
-public class AutonomousCode extends LinearOpMode {
+public class AutonomousCodeB2 extends LinearOpMode {
+
+    double INITIAL_STRAFE_ADJUSTMENT = 4;
 
     private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
     private static final String[] LABELS = {
@@ -94,11 +94,13 @@ public class AutonomousCode extends LinearOpMode {
         DcMotor intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
         DcMotor duckMotor = hardwareMap.get(DcMotor.class, "duckMotor");
 
+        waitForStart();
+
         robot.moveDistance(new HardwareRobot.DistanceVector(0.2, 0, 0, 1));
         TimeUnit.SECONDS.sleep(1);
 
         // moves right
-        robot.moveDistance(new HardwareRobot.DistanceVector(0, -1.5, 0, 1));
+        robot.moveDistance(new HardwareRobot.DistanceVector(0, -1.5 + (-INITIAL_STRAFE_ADJUSTMENT), 0, 1));
         TimeUnit.SECONDS.sleep(2);
 
         // spins duck wheel
