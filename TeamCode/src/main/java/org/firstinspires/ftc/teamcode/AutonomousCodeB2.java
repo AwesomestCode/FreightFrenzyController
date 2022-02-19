@@ -9,11 +9,11 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "Will The Robot Run B2", group = "Concept")
+@Autonomous(name = "Will The Robot Run B2 (Swapped)", group = "Concept")
 // @Disabled
 public class AutonomousCodeB2 extends LinearOpMode {
 
-    double INITIAL_STRAFE_ADJUSTMENT = 4;
+    double INITIAL_STRAFE_ADJUSTMENT = 3.3;
 
     private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
     private static final String[] LABELS = {
@@ -96,11 +96,11 @@ public class AutonomousCodeB2 extends LinearOpMode {
 
         waitForStart();
 
-        robot.moveDistance(new HardwareRobot.DistanceVector(0.2, 0, 0, 1));
+        robot.moveDistance(new HardwareRobot.DistanceVector(0, 0.2, 0, 1));
         TimeUnit.SECONDS.sleep(1);
 
         // moves right
-        robot.moveDistance(new HardwareRobot.DistanceVector(0, -1.5 + (-INITIAL_STRAFE_ADJUSTMENT), 0, 1));
+        robot.moveDistance(new HardwareRobot.DistanceVector(-1.4 - INITIAL_STRAFE_ADJUSTMENT, 0, 0, 1));
         TimeUnit.SECONDS.sleep(2);
 
         // spins duck wheel
@@ -110,14 +110,14 @@ public class AutonomousCodeB2 extends LinearOpMode {
         duckMotor.setPower(0);
 
         // moves to in front of team shipping unit
-        robot.moveDistance(new HardwareRobot.DistanceVector(0, 3.6, 0, 1));
+        robot.moveDistance(new HardwareRobot.DistanceVector(3.2, 0, 0, 1));
         TimeUnit.SECONDS.sleep(3);
 
-        robot.moveDistance(new HardwareRobot.DistanceVector(0.5, 0, 0, 1));
+        robot.moveDistance(new HardwareRobot.DistanceVector(0, 0.5, 0, 1));
         TimeUnit.SECONDS.sleep(1);
 
         // robot turns
-        robot.moveDistance(new HardwareRobot.DistanceVector(0, 0, 2*findRot, 1));
+        robot.moveDistance(new HardwareRobot.DistanceVector(0, 0, 1*findRot, 1));
 
         TimeUnit.SECONDS.sleep(2);
 
@@ -137,7 +137,7 @@ public class AutonomousCodeB2 extends LinearOpMode {
         ferrisMotor.setPower(0.5);
         TimeUnit.SECONDS.sleep(1);
 
-        robot.moveDistance(new HardwareRobot.DistanceVector(-1.2, 0, 0, 1));
+        robot.moveDistance(new HardwareRobot.DistanceVector(-1.5, 0, 0, 1));
         TimeUnit.SECONDS.sleep(1);
 
         // push cargo
@@ -150,7 +150,7 @@ public class AutonomousCodeB2 extends LinearOpMode {
 
         TimeUnit.SECONDS.sleep(1);
 
-        robot.moveDistance(new HardwareRobot.DistanceVector(0, 0, -1*findRot, 1));
+        robot.moveDistance(new HardwareRobot.DistanceVector(0, 0, 1*findRot, 1));
 
         TimeUnit.SECONDS.sleep(2);
 
