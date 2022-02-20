@@ -141,7 +141,7 @@ public class HardwareRobot {
         armMotor.setPower(0.1);
         TimeUnit.SECONDS.sleep(1);
         armMotor.setPower(0);
-        ferrisWheel.setPower(0);
+        // ferrisWheel.setPower(0);
     }
 
     public static class DistanceVector {

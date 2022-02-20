@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 // @Disabled
 public class AutonomousCodeR2 extends LinearOpMode {
 
-    double INITIAL_STRAFE_ADJUSTMENT = 4;
+    double INITIAL_STRAFE_ADJUSTMENT = 3.5;
 
     private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
     private static final String[] LABELS = {
@@ -104,7 +104,7 @@ public class AutonomousCodeR2 extends LinearOpMode {
         TimeUnit.SECONDS.sleep(2);
 
         // spins duck wheel
-        duckMotor.setPower(-0.3);
+        duckMotor.setPower(-0.4);
         TimeUnit.SECONDS.sleep(3);
 
         duckMotor.setPower(0);
@@ -130,14 +130,14 @@ public class AutonomousCodeR2 extends LinearOpMode {
             armMotor.setTargetPosition(410);
             ferrisMotor.setTargetPosition(-70);
         }else {
-            armMotor.setTargetPosition(1050);
+            armMotor.setTargetPosition(1100);
             ferrisMotor.setTargetPosition(90);
         }
         armMotor.setPower(1);
         ferrisMotor.setPower(0.5);
         TimeUnit.SECONDS.sleep(1);
 
-        robot.moveDistance(new HardwareRobot.DistanceVector(-1.2, 0, 0, 1));
+        robot.moveDistance(new HardwareRobot.DistanceVector(-0.9, 0, 0, 1));
         TimeUnit.SECONDS.sleep(1);
 
         // push cargo

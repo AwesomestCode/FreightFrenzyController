@@ -86,7 +86,7 @@ public class NobleRobotBeta extends LinearOpMode {
                 intakeMotor.setPower(0);
             }
 
-            duckMotor.setPower(gamepad2.right_trigger * 0.3);
+            duckMotor.setPower(gamepad2.left_stick_y * 0.3);
 
             robot.movePower(new HardwareRobot.PowerVector(Math.min(gamepad1.left_stick_y, 0.8), Math.min(gamepad1.left_stick_x, 0.8), gamepad1.right_stick_x));
         }

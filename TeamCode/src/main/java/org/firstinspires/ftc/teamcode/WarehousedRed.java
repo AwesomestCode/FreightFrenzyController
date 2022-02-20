@@ -18,6 +18,9 @@ public class WarehousedRed extends LinearOpMode {
 
         waitForStart();
 
+        robot.initialise();
+        TimeUnit.SECONDS.sleep(1);
+
         motor.setTargetPosition(720);
         motor.setPower(0.2);
 

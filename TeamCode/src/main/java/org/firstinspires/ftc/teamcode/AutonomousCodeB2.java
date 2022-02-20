@@ -104,7 +104,7 @@ public class AutonomousCodeB2 extends LinearOpMode {
         TimeUnit.SECONDS.sleep(2);
 
         // spins duck wheel
-        duckMotor.setPower(-0.3);
+        duckMotor.setPower(0.4);
         TimeUnit.SECONDS.sleep(3);
 
         duckMotor.setPower(0);
@@ -130,7 +130,7 @@ public class AutonomousCodeB2 extends LinearOpMode {
             armMotor.setTargetPosition(410);
             ferrisMotor.setTargetPosition(-70);
         }else {
-            armMotor.setTargetPosition(1050);
+            armMotor.setTargetPosition(1100);
             ferrisMotor.setTargetPosition(90);
         }
         armMotor.setPower(1);
