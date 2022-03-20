@@ -14,8 +14,10 @@ public class NobleRobotBeta extends LinearOpMode {
         DcMotor intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
         DcMotor ferrisMotor = hardwareMap.get(DcMotor.class, "intakeFerrisWheel");
         DcMotor armMotor = hardwareMap.get(DcMotor.class, "armMotor");
+        DcMotor duckMotor = hardwareMap.get(DcMotor.class, "duckMotor");
 
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        duckMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         armMotor.setTargetPosition(0);
         ferrisMotor.setTargetPosition(0);
@@ -34,7 +36,7 @@ public class NobleRobotBeta extends LinearOpMode {
                 {0, 0}, // Ground Level
                 {960, 90}, // Front Side, Top level
                 {2120, -40}, // Back Side, Top level
-                {2840, -15}, // Back Side, Bottom level
+                {1000, 70}, // Hub Cap
                 {208, 36} // Front Side, intake
         };
 
@@ -58,11 +60,11 @@ public class NobleRobotBeta extends LinearOpMode {
                 targetPosition = motorPositions[2][0] + adjustment; // Back Side, Top level
                 ferrisMotor.setTargetPosition(motorPositions[2][1]);
             }
-            /* DISABLED FOR NOW TO PREVENT ARM FROM GOING TOO FAR
+
             else if(gamepad2.b && enabled) {
-                targetPosition = motorPositions[3][0]; // Back Side, Bottom level
+                targetPosition = motorPositions[3][0]; // Hub Cap
                 ferrisMotor.setTargetPosition(motorPositions[3][1]);
-            } */
+            }
             else if(gamepad2.dpad_left) {
                 targetPosition = motorPositions[4][0]; // Front Side, Intake
                 ferrisMotor.setTargetPosition(motorPositions[4][1]);
@@ -83,6 +85,8 @@ public class NobleRobotBeta extends LinearOpMode {
             } else if(gamepad2.dpad_right) {
                 intakeMotor.setPower(0);
             }
+
+            duckMotor.setPower(gamepad2.left_stick_y * 0.3);
 
             robot.movePower(new HardwareRobot.PowerVector(Math.min(gamepad1.left_stick_y, 0.8), Math.min(gamepad1.left_stick_x, 0.8), gamepad1.right_stick_x));
         }

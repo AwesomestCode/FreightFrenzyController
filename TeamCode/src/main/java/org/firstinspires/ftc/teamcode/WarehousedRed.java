@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "Warehoused Autonomous", group = "Concept")
+@Autonomous(name = "Warehoused Red", group = "Concept")
 // @Disabled
-public class WarehousedAutonomous extends LinearOpMode {
+public class WarehousedRed extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -18,12 +18,15 @@ public class WarehousedAutonomous extends LinearOpMode {
 
         waitForStart();
 
+        robot.initialise();
+        TimeUnit.SECONDS.sleep(1);
+
         motor.setTargetPosition(720);
         motor.setPower(0.2);
 
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.moveDistance(new HardwareRobot.DistanceVector(0, 1, 0, 1));
+        robot.moveDistance(new HardwareRobot.DistanceVector(0, 2, 0, 1));
 
         TimeUnit.SECONDS.sleep(2);
 
